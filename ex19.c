@@ -37,20 +37,21 @@
 
 typedef struct st_rest
 {
-    long int vector1[MAX][MAX],
-             vector2[MAX][MAX],
+    long int vet1[MAX][MAX],
+             vet2[MAX][MAX],
              total[MAX][MAX];
     int thr[9], i;
-    struct st_resta *prox;
-}Matrix;
+    struct st_rest *prox;
+}Matriz;
 
-int thrd_create(thrd_t *thr, thrd_start_t func, void *arg);
 
-// int thrd_join(thrd_t thr, int *result);
+void* inc1(void *vetor1);
+void* mult(void* m2);
+void* inc2(void* v1);
+void organize(int n, Matriz *m);
 
-// int thrd_detach(thrd_t thr)
 
-int main(int argc, char *argv[])
+int main(void)
 {
 
     return 0;
