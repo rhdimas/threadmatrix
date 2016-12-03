@@ -62,6 +62,16 @@ int main(void)
     pthread_t *tr2 = malloc(sizeof(pthread_t));
     pthread_t t[9];
 
+    for(i = 0; i < 9; i++)
+        m->thr[i]=0;
+
+    srand(time(NULL));
+
+    pthread_create(tr, NULL, inc1, (void*)m);
+    pthread_create(tr2, NULL, inc2, (void*)m);
+
+    m->indice=0;
+
     return 0;
 }
 
