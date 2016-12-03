@@ -72,6 +72,24 @@ int main(void)
 
     m->indice=0;
 
+    for(i = 1; i <= 8; i++)
+    {
+        tempo1 = time(NULL);
+        ordena(i, m);
+        for(j = 1; j <= i; j++)
+            pthread_join(t[j], NULL);
+
+        m->indice=0;
+        for(k = 0; k <= i; k++)
+            m->thr[k] = 0;
+        tempo2 = time(NULL);
+
+        tempo[i] = tempo2 - tempo1;
+    }
+
+    for(k = 1; k <= 8; k++)
+        printf("Threads: %d | Tempo: %f segundos\n", k, tempo[k]);
+  
     return 0;
 }
 
