@@ -112,6 +112,25 @@ void* inc2(void* v1)
 
 void* mult(void* m2)
 {
+    Matriz *m = (Matriz *)m2;
+    int i=m->indice++;
+    int k = 0, soma = 0;
+
+    if (m->indice<8)
+        m->indice++;
+    else
+        m->indice=0;
+
+    for(k=m->thr[m->indice-1]; k<m->thr[m->indice]; k++)
+    {
+        for(l = 0; l < MAX; l++)
+        {
+            soma = 0;
+            for(i = 0; i < MAX; i++)
+                soma = m->vetor1[k][i] * m->vetor2[i][l]+soma;
+            m->resultado[k][l]=soma;
+        }
+    }
 
     return NULL;
 }
