@@ -48,7 +48,7 @@ typedef struct st_rest
 void* inc1(void *vetor1);
 void* mult(void* m2);
 void* inc2(void* v1);
-void organize(int n, Matriz *m);
+void ordena(int n, Matriz *m);
 
 
 int main(void)
@@ -57,6 +57,27 @@ int main(void)
     return 0;
 }
 
+void* ordena(void* v1)
+{
 
+    return NULL;
+}
 
+void* inc1(void* v1)
+{
+
+    return NULL;
+}
+
+void* inc2(void* v1)
+{
+
+    return NULL;
+}
+
+void* mult(void* m2)
+{
+
+    return NULL;
+}
 
