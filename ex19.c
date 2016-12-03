@@ -53,6 +53,14 @@ void ordena(int n, Matriz *m);
 
 int main(void)
 {
+    int i,j;
+    clock_t tempo1, tempo2;
+
+    double tempo[9];
+    Matriz *m= malloc(sizeof(Matriz));
+    pthread_t *tr = malloc(sizeof(pthread_t));
+    pthread_t *tr2 = malloc(sizeof(pthread_t));
+    pthread_t t[9];
 
     return 0;
 }
