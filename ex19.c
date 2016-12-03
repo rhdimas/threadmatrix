@@ -33,14 +33,14 @@
 #include <time.h>
 #include <pthread.h>
 
-#define MAX 1080
+#define MAX 1000
 
 typedef struct st_rest
 {
+    int thr[20], indice;
     long int vet1[MAX][MAX],
              vet2[MAX][MAX],
              total[MAX][MAX];
-    int thr[9], indice;
     struct st_rest *prox;
 }Matriz;
 
@@ -53,16 +53,16 @@ void ordena(int n, Matriz *m);
 
 int main(void)
 {
-    int i,j;
+    int i, j, k;
     clock_t tempo1, tempo2;
 
-    double tempo[9];
+    double tempo[20];
     Matriz *m= malloc(sizeof(Matriz));
     pthread_t *tr = malloc(sizeof(pthread_t));
     pthread_t *tr2 = malloc(sizeof(pthread_t));
-    pthread_t t[9];
+    pthread_t t[20];
 
-    for(i = 0; i < 9; i++)
+    for(i = 0; i < 20; i++)
         m->thr[i]=0;
 
     srand(time(NULL));
@@ -72,10 +72,13 @@ int main(void)
 
     m->indice=0;
 
-    for(i = 1; i <= 8; i++)
+    for(i = 1; i <= 19; i++)
     {
         tempo1 = time(NULL);
         ordena(i, m);
+        for(j = 1; j <= i; j++)
+            pthread_create(&t[j], NULL, mult, (void*)m);
+
         for(j = 1; j <= i; j++)
             pthread_join(t[j], NULL);
 
@@ -87,31 +90,29 @@ int main(void)
         tempo[i] = tempo2 - tempo1;
     }
 
-    for(k = 1; k <= 8; k++)
+    for(k = 1; k <= 19; k++)
         printf("Threads: %d | Tempo: %f segundos\n", k, tempo[k]);
   
     return 0;
 }
 
-void* ordena(int n, Matriz *m)
+void ordena(int n, Matriz *m)
 {
     int i, divisao,resto;
-    divisao= MAX / n;
+    divisao = MAX / n;
     resto = MAX%n;
 
-    for (i=1; i<=n; i++)
+    for(i=1; i <= n; i++)
         m->thr[i] = m->thr[i] + divisao;
 
-    if (resto!=0)
-         for (i=1; i<= n; i++)
+    if(resto!=0)
+         for(i = 1; i <= resto; i++)
              {
                  m->thr[i] ++;
                  m->thr[i]+= m->thr[i-1];
              }
-         for(i=resto+1; i<=n; i++)
+         for(i = resto+1; i <= n; i++)
              m->thr[i]+=m->thr[i-1];
-
-    return NULL;
 }
 
 void* inc1(void* v1)
@@ -119,8 +120,8 @@ void* inc1(void* v1)
     int i,j;
     Matriz *m = (Matriz *)v1;
 
-    for(i=0;i<MAX;i++)
-        for(j=0;j<MAX;j++)
+    for(i=0; i<MAX; i++)
+        for(j = 0; j < MAX; j++)
             m-> vet1[i][j] = rand()%MAX;
 
     return NULL;
@@ -141,10 +142,11 @@ void* inc2(void* v1)
 void* mult(void* m2)
 {
     Matriz *m = (Matriz *)m2;
-    int i=m->indice++;
+    int i = m->indice++;
+    int l;
     int k = 0, soma = 0;
 
-    if (m->indice<8)
+    if (m->indice<19)
         m->indice++;
     else
         m->indice=0;
@@ -155,8 +157,8 @@ void* mult(void* m2)
         {
             soma = 0;
             for(i = 0; i < MAX; i++)
-                soma = m->vetor1[k][i] * m->vetor2[i][l]+soma;
-            m->resultado[k][l]=soma;
+                soma = m->vet1[k][i] * m->vet2[i][l]+soma;
+            m->total[k][l] = soma;
         }
     }
 
