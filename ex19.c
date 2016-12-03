@@ -86,11 +86,18 @@ void* inc1(void* v1)
     for(i=0;i<MAX;i++)
         for(j=0;j<MAX;j++)
             m-> vet1[i][j] = rand()%MAX;
+
     return NULL;
 }
 
 void* inc2(void* v1)
 {
+    int i,j;
+    Matriz *m = (Matriz *)v1;
+
+    for(i=0; i<MAX; i++)
+        for(j=0; j<MAX; j++)
+            m-> vet2[i][j]=rand()%MAX;
 
     return NULL;
 }
