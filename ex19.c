@@ -33,14 +33,14 @@
 #include <time.h>
 #include <pthread.h>
 
-#define MAX 1000
+#define MAX 1080
 
 typedef struct st_rest
 {
     long int vet1[MAX][MAX],
              vet2[MAX][MAX],
              total[MAX][MAX];
-    int thr[9], i;
+    int thr[9], indice;
     struct st_rest *prox;
 }Matriz;
 
@@ -57,8 +57,24 @@ int main(void)
     return 0;
 }
 
-void* ordena(void* v1)
+void* ordena(int n, Matriz *m)
 {
+    int i, divisao,resto;
+    divisao= MAX / n;
+    resto = MAX%n;
+
+    for (i=1; i<=n; i++)
+        m->thr[i] = m->thr[i] + divisao;
+
+    if (resto!=0)
+         for (i=1; i<= n; i++)
+             {
+                 m->thr[i] ++;
+                 m->thr[i]+= m->thr[i-1];
+             }
+         for(i=resto+1; i<=n; i++)
+             m->thr[i]+=m->thr[i-1];
+}
 
     return NULL;
 }
